@@ -6,7 +6,7 @@ Automatically adds [`Co-authored-by`](https://git.wiki.kernel.org/index.php/Comm
 
 ### Learn more
 
-- [GitHub Help](https://help.github.com/en/github/committing-changes-to-your-project/creating-a-commit-with-multiple-authors)
+  - [GitHub Help](https://help.github.com/en/github/committing-changes-to-your-project/creating-a-commit-with-multiple-authors)
 
 ## About
 
