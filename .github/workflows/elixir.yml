@@ -22,3 +22,5 @@ jobs:
       run: mix deps.get
     - name: Run Tests
       run: mix test
+    - name: Build escript
+      run: mix escript.build
