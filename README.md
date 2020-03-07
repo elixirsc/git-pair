@@ -50,24 +50,6 @@ git pair stop
 
 When you run `git pair init`, it will register [`pre-commit` hook](https://github.com/git/git/blob/master/templates/hooks--pre-commit.sample) to wrap calls to our binary that will add `Co-authored-by` stored in `.git/config`.
 
-## Contributing
-
-```
-git clone git@github.com:elixirsc/git-pair.git
-cd git-pair
-mix deps.get
-```
-
-### Build
-
-To build `escript` we use [`Mix`](https://hexdocs.pm/mix/master/Mix.Tasks.Escript.Build.html):
-
-```
-mix escript.build
-```
-
-This will generate a binary file under `_build/git-pair`.
-
 ### Backlog
 
 To check our backlog check out our [Project Board](https://github.com/elixirsc/git-pair/projects/1).
