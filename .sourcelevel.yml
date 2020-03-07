@@ -1,0 +1,19 @@
+# This configuration was used SourceLevel to review the elixirsc/git-pair repository
+# on 18066519bb13d4ee674a9ccbe4f35bf76ba7e767.
+# You can make this the default configuration for future reviews by moving this
+# file to your repository as `.sourcelevel.yml` and pushing it to GitHub, and tweak
+# it as you wish - To know more on how to change this file to better review your
+# repository you can go to https://docs.sourcelevel.io/configuration and see the configuration
+# details.
+---
+styleguide: sourcelevel/linters
+engines:
+  credo:
+    enabled: true
+    channel: latest
+  fixme:
+    enabled: true
+  remark-lint:
+    enabled: true
+exclude_paths:
+- test
