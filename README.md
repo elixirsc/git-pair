@@ -10,7 +10,7 @@ Automatically adds [`Co-authored-by`](https://git.wiki.kernel.org/index.php/Comm
 
 ## About
 
-This is a experiment created by [ElixirSC](https://www.meetup.com/elixirsc/) meetup group in our Hacking Sessions.
+This is an experiment created by [ElixirSC](https://www.meetup.com/elixirsc/) meetup group in our Hacking Sessions.
 
 We're porting Golang project [thechutrain/git-pair](https://github.com/thechutrain/git-pair) to Elixir using [Erlang escript](http://erlang.org/doc/man/escript.html).
 
