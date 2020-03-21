@@ -17,10 +17,12 @@ defmodule GitPair.CLI do
   ]
 
   def main(argv) do
-    argv
+    {_result, message} = argv
     |> parse_args
     |> parse_command
     |> execute_command
+
+    IO.puts(message)
   end
 
   defp parse_args(args), do: OptionParser.parse(args, switches: @switches, aliases: @aliases)
