@@ -17,12 +17,11 @@ defmodule GitPair.CLI do
   ]
 
   def main(argv) do
-    {_result, message} = argv
+    argv
     |> parse_args
     |> parse_command
     |> execute_command
-
-    IO.puts(message)
+    |> print_result
   end
 
   defp parse_args(args), do: OptionParser.parse(args, switches: @switches, aliases: @aliases)
@@ -31,5 +30,13 @@ defmodule GitPair.CLI do
 
   defp execute_command({action, args}) do
     apply(Actions, String.to_atom(action), [args])
+  end
+
+  defp print_result({:ok, message}) do
+    IO.puts(message)
+  end
+
+  defp print_result({:error, message}) do
+    IO.puts("Fail: #{message}")
   end
 end
