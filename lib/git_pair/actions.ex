@@ -14,11 +14,11 @@ defmodule GitPair.Actions do
     {:ok, "User #{username} removed"}
   end
 
-  def command(action, [username]) do
+  defp command(action, [username]) do
     {_, 0} = System.cmd("git", [@git_config, action, @key, username])
   end
 
-  def command(action, _usernames) do
+  defp command(action, _usernames) do
     {:error, "Unsuported multiple users"}
   end
 end
