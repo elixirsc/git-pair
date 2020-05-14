@@ -28,6 +28,10 @@ defmodule GitPair.CLI do
 
   defp parse_command({_, [action | args], _}), do: {action, args}
 
+  defp execute_command({action, []}) do
+    apply(Actions, String.to_atom(action), [])
+  end
+
   defp execute_command({action, args}) do
     apply(Actions, String.to_atom(action), [args])
   end
