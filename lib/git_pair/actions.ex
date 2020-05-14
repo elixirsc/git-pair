@@ -1,12 +1,24 @@
 defmodule GitPair.Actions do
-  @git_config ["config", "--add", "pair.coauthor"]
+  @git_config "config"
+  @key "pair.coauthor"
 
-  def add([username]) do
-    {_, 0} = System.cmd("git", @git_config ++ [username])
-    {:ok, "Added user #{username}"}
+  def add(username) do
+    command("--add", username)
+
+    {:ok, "User #{username} added"}
   end
 
-  def add([_ | _]) do
+  def rm(username) do
+    command("--unset", username)
+
+    {:ok, "User #{username} removed"}
+  end
+
+  def command(action, [username]) do
+    {_, 0} = System.cmd("git", [@git_config, action, @key, username])
+  end
+
+  def command(action, _usernames) do
     {:error, "Unsuported multiple users"}
   end
 end
