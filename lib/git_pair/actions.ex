@@ -5,19 +5,20 @@ defmodule GitPair.Actions do
   @success_exit_status 0
 
   def add(username) do
-    command("--add", username)
+    result = command("--add", username)
 
-    {:ok, "User #{username} added"}
+    output(result, "User #{username} added")
   end
 
   def rm(username) do
-    command("--unset", username)
-    |> output("User #{username} removed")
+    result = command("--unset", username)
+    output(result, "User #{username} removed")
   end
 
   def status() do
-    command("--get-all")
-    |> output("Pairing with: ")
+    result = command("--get-all")
+
+    output(result, "Pairing with: ")
   end
 
   defp output({"", @success_exit_status}, message) do
