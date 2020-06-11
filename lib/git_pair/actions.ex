@@ -39,14 +39,16 @@ defmodule GitPair.Actions do
   end
 
   defp command(action) do
-    System.cmd("git", [@git_config, action, @key])
+    command_runner().cmd("git", [@git_config, action, @key])
   end
 
   defp command(action, [username]) do
-    System.cmd("git", [@git_config, action, @key, username])
+    command_runner().cmd("git", [@git_config, action, @key, username])
   end
 
   defp command(_action, _usernames) do
     {:error, "Unsuported multiple users"}
   end
+
+  def command_runner(), do: Application.get_env(:git_pair, :command_runner)
 end
