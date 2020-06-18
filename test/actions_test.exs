@@ -8,7 +8,7 @@ defmodule GitPair.ActionsTest do
 
   setup :verify_on_exit!
 
-  test ".add calls git config add comma" do
+  test ".add calls git config add command" do
     expect(SystemMock, :cmd, fn _cmd, _options ->
       {"", 0}
     end)
