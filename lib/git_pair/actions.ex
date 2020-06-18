@@ -12,6 +12,7 @@ defmodule GitPair.Actions do
 
   def rm(username) do
     result = command("--unset", username)
+
     output(result, "User #{username} removed")
   end
 
