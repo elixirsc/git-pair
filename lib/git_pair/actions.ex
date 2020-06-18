@@ -22,6 +22,12 @@ defmodule GitPair.Actions do
     output(result, "Pairing with: ")
   end
 
+  def stop() do
+    result = command("--unset-all")
+
+    output(result, "Stopped pairing with everyone")
+  end
+
   defp output({"", @success_exit_status}, message) do
     {:ok, message}
   end

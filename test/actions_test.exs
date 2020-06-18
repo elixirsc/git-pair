@@ -40,4 +40,15 @@ defmodule GitPair.ActionsTest do
     assert result == :ok
     assert message == "Pairing with: \n\nfake-user"
   end
+
+  test ".stop calls git config --unset-all command" do
+    expect(SystemMock, :cmd, fn _cmd, _options ->
+      {"", 0}
+    end)
+
+    {result, message} = Actions.stop()
+
+    assert result == :ok
+    assert message == "Stopped pairing with everyone"
+  end
 end
