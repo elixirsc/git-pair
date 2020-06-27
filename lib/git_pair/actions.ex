@@ -4,6 +4,30 @@ defmodule GitPair.Actions do
 
   @success_exit_status 0
 
+  @commit_msg_hook_content """
+    #!/bin/sh
+    set -e
+
+    # Hook from git-pair 👥
+    git pair _modify-commit-msg $@ #adds all of the arguments in bash
+  """
+
+  @commit_msg_hook_path "./.git/hooks/commit-msg"
+
+  def init() do
+    File.mkdir_p!(Path.dirname(@commit_msg_hook_path))
+    case File.write(@commit_msg_hook_path, @commit_msg_hook_content) do
+      :ok ->
+        {:ok, "Initialize with success"}
+      {:error, :enotdir} ->
+        {:error, "You must initialize in a git repository"}
+      {:error, :enoent} ->
+        {:error, "File does not exist"}
+      _ ->
+        {:error, "Failed to initialize git-pair for this repository"}
+    end
+  end
+
   def add(username) do
     result = command("--add", username)
 
