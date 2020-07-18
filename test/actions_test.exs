@@ -32,7 +32,7 @@ defmodule GitPair.ActionsTest do
 
   test ".status calls git config get-all command" do
     expect(SystemMock, :cmd, fn _cmd, _options ->
-      {"fake-user", 0}
+      {"fake-user\n", 0}
     end)
 
     {result, message} = Actions.status()
