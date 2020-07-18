@@ -18,8 +18,6 @@ defmodule GitPair.Actions do
     File.mkdir_p!(Path.dirname(@commit_msg_hook_path))
     case File.write(@commit_msg_hook_path, @commit_msg_hook_content) do
       :ok ->
-        # @spec chmod(Path.t(), non_neg_integer()) :: :ok | {:error, posix()}
-        # https://hexdocs.pm/elixir/File.html#chmod/2
         File.chmod(@commit_msg_hook_path, 0o755)
         {:ok, "Initialize with success"}
       {:error, :enotdir} ->
@@ -57,7 +55,7 @@ defmodule GitPair.Actions do
   def _modify_commit_msg(path) do
     co_authors_message = IO.iodata_to_binary(make_co_authored_by)
 
-    File.open(path, [:append]) 
+    File.open(path, [:append])
     |> elem(1)
     |> IO.binwrite(co_authors_message)
 
@@ -74,7 +72,7 @@ defmodule GitPair.Actions do
     end
   end
 
-  def make_co_authored_by() do
+  defp make_co_authored_by() do
     "\n" <> (Enum.map(collaborators, fn collaborator ->
       "Co-authored-by: #{collaborator} <#{collaborator}@users.noreply.github.com>"
     end) |> Enum.join("\n"))
