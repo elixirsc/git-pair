@@ -9,7 +9,7 @@ defmodule GitPair.Actions do
     set -e
 
     # Hook from git-pair 👥
-    git pair _modify-commit-msg $@ #adds all of the arguments in bash
+    git pair _modify_commit_msg $@ #adds all of the arguments in bash
   """
 
   @commit_msg_hook_path "./.git/hooks/commit-msg"
@@ -18,6 +18,9 @@ defmodule GitPair.Actions do
     File.mkdir_p!(Path.dirname(@commit_msg_hook_path))
     case File.write(@commit_msg_hook_path, @commit_msg_hook_content) do
       :ok ->
+        # @spec chmod(Path.t(), non_neg_integer()) :: :ok | {:error, posix()}
+        # https://hexdocs.pm/elixir/File.html#chmod/2
+        File.chmod(@commit_msg_hook_path, 0o755)
         {:ok, "Initialize with success"}
       {:error, :enotdir} ->
         {:error, "You must initialize in a git repository"}
@@ -41,15 +44,40 @@ defmodule GitPair.Actions do
   end
 
   def status() do
-    result = command("--get-all")
-
-    output(result, "Pairing with: ")
+    "Pairing with: \n\n" <> Enum.join(collaborators, "\n")
+    |> output()
   end
 
   def stop() do
     result = command("--unset-all")
 
     output(result, "Stopped pairing with everyone")
+  end
+
+  def _modify_commit_msg(path) do
+    co_authors_message = IO.iodata_to_binary(make_co_authored_by)
+
+    File.open(path, [:append]) 
+    |> elem(1)
+    |> IO.binwrite(co_authors_message)
+
+    {:ok, "Success! Co-authors registered."}
+  end
+
+  defp collaborators() do
+    case command("--get-all") do
+      {collaborators, 0} ->
+        String.split(collaborators, "\n")
+        |> (&(List.delete_at(&1, length(&1) - 1))).()
+      _ ->
+        []
+    end
+  end
+
+  def make_co_authored_by() do
+    "\n" <> (Enum.map(collaborators, fn collaborator ->
+      "Co-authored-by: #{collaborator} <#{collaborator}@users.noreply.github.com>"
+    end) |> Enum.join("\n"))
   end
 
   defp output({"", @success_exit_status}, message) do
@@ -67,6 +95,10 @@ defmodule GitPair.Actions do
 
   defp output({result, _failed_exit_status}, _message) do
     {:error, result}
+  end
+
+  defp output(message) do
+    {:ok, message}
   end
 
   defp command(action) do
