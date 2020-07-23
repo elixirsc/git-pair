@@ -16,6 +16,11 @@ defmodule GitPair.CLI do
     h: :help
   ]
 
+  @help [
+    add: "Add [username] as co-author for next commits",
+    rm: "Remove [username] as co-author for next commits"
+  ]
+
   def main(argv) do
     argv
     |> parse_args
@@ -24,9 +29,16 @@ defmodule GitPair.CLI do
     |> print_result
   end
 
-  defp parse_args(args), do: OptionParser.parse(args, switches: @switches, aliases: @aliases)
+  defp parse_args(args), do: OptionParser.parse(args, strict: @switches, aliases: @aliases)
 
   defp parse_command({_, [action | args], _}), do: {action, args}
+
+  defp execute_command({"help", []}) do
+    Enum.map(@help, fn detail ->
+      {command, explanation} = detail
+      "#{command}: #{explanation}"
+    end) |> (&({:ok, Enum.join(&1, "\n")})).()
+  end
 
   defp execute_command({action, []}) do
     apply(Actions, String.to_atom(action), [])
