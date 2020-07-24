@@ -34,10 +34,12 @@ defmodule GitPair.CLI do
   defp parse_command({_, [action | args], _}), do: {action, args}
 
   defp execute_command({"help", []}) do
-    Enum.map(@help, fn detail ->
+    @help
+    |> Enum.map(fn detail ->
       {command, explanation} = detail
       "#{command}: #{explanation}"
-    end) |> (&({:ok, Enum.join(&1, "\n")})).()
+    end)
+    |> (&{:ok, Enum.join(&1, "\n")}).()
   end
 
   defp execute_command({action, []}) do
