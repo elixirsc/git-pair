@@ -14,6 +14,20 @@ This is an experiment created by [ElixirSC](https://www.meetup.com/elixirsc/) me
 
 We're porting Golang project [thechutrain/git-pair](https://github.com/thechutrain/git-pair) to Elixir using [Erlang escript](http://erlang.org/doc/man/escript.html).
 
+## Install
+
+```
+mix escript.install github elixirsc/git-pair branch main
+```
+
+**NOTE:** If you use `asdf`, you need to "export" `git-pair` binary to `asdf` recognized binaries `PATH`. You can accomplish this by running:
+
+```
+asdf reshim elixir
+```
+
+If no version was specified it will get the current version.
+
 ## Usage
 
 ### Initialize
