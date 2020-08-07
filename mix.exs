@@ -25,6 +25,6 @@ defmodule GitPair.MixFile do
   end
 
   def escript do
-    [main_module: GitPair.CLI, path: "_build/git-pair"]
+    [main_module: GitPair.CLI]
   end
 end
