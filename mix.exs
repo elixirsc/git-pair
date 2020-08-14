@@ -3,7 +3,7 @@ defmodule GitPair.MixFile do
 
   def project do
     [
-      app: :git_pair,
+      app: :"git-pair",
       version: "0.1.0",
       elixir: "~> 1.10",
       escript: escript(),
