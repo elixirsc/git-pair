@@ -111,5 +111,7 @@ defmodule GitPair.Actions do
     {:error, "Unsuported multiple users"}
   end
 
-  def command_runner(), do: Application.get_env(:git_pair, :command_runner)
+  def command_runner() do
+    Application.get_env(:git_pair, :command_runner, System)
+  end
 end
