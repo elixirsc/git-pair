@@ -16,17 +16,27 @@ We're porting Golang project [thechutrain/git-pair](https://github.com/thechutra
 
 ## Install
 
+You can install it with `escript.install` from [hex](https://hex.pm/packages/git_pair):
+
 ```
-mix escript.install github elixirsc/git-pair branch main
+mix escript.install hex git_pair
 ```
 
-**NOTE:** If you use `asdf`, you need to "export" `git-pair` binary to `asdf` recognized binaries `PATH`. You can accomplish this by running:
+**NOTE:** If you use `asdf`, you need to "export" `git-pair` binary to `asdf` recognized binaries `PATH`:
 
 ```
 asdf reshim elixir
 ```
 
 If no version was specified it will get the current version.
+
+### Development
+
+If you want to fetch the development version. You can install directly from this repo:
+
+```
+mix escript.install github elixirsc/git-pair branch main
+```
 
 ## Usage
 
