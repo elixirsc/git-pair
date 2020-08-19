@@ -5,7 +5,7 @@ defmodule GitPair.MixFile do
     [
       app: :"git-pair",
       description: "Automatically adds Co-authored-by mark to commits when you're pairing",
-      version: "0.1.0",
+      version: "0.2.0",
       elixir: "~> 1.10",
       escript: escript(),
       deps: deps(),
