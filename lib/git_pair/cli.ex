@@ -18,7 +18,11 @@ defmodule GitPair.CLI do
 
   @help [
     add: "Add [username] as co-author for next commits",
-    rm: "Remove [username] as co-author for next commits"
+    help: "Display this message 🤡",
+    init: "Initialize pairing session",
+    rm: "Remove [username] as co-author for next commits",
+    stop: "Stop pairing with everyone",
+    status: "Display pairs list"
   ]
 
   def main(argv) do
