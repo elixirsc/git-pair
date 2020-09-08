@@ -15,7 +15,6 @@ defmodule GitPair.MixFile do
       name: "GitPair",
       source_url: "https://github.com/elixirsc/git-pair",
       homepage_url: "https://hex.pm/packages/git-pair/",
-
       docs: docs()
     ]
   end
