@@ -46,7 +46,7 @@ defmodule GitPair.Actions do
   end
 
   def status() do
-    ("Pairing with: \n\n" <> Enum.join(collaborators, "\n"))
+    ("Pairing with: \n\n" <> Enum.join(collaborators(), "\n"))
     |> output()
   end
 
@@ -57,7 +57,7 @@ defmodule GitPair.Actions do
   end
 
   def _modify_commit_msg(path) do
-    co_authors_message = IO.iodata_to_binary(make_co_authored_by)
+    co_authors_message = IO.iodata_to_binary(make_co_authored_by())
 
     File.open(path, [:append])
     |> elem(1)
@@ -79,7 +79,7 @@ defmodule GitPair.Actions do
 
   defp make_co_authored_by() do
     "\n" <>
-      (Enum.map(collaborators, fn collaborator ->
+      (Enum.map(collaborators(), fn collaborator ->
          "Co-authored-by: #{collaborator} <#{collaborator}@users.noreply.github.com>"
        end)
        |> Enum.join("\n"))
