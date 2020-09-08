@@ -16,14 +16,18 @@ defmodule GitPair.Actions do
 
   def init() do
     File.mkdir_p!(Path.dirname(@commit_msg_hook_path))
+
     case File.write(@commit_msg_hook_path, @commit_msg_hook_content) do
       :ok ->
         File.chmod(@commit_msg_hook_path, 0o755)
         {:ok, "Initialize with success"}
+
       {:error, :enotdir} ->
         {:error, "You must initialize in a git repository"}
+
       {:error, :enoent} ->
         {:error, "File does not exist"}
+
       _ ->
         {:error, "Failed to initialize git-pair for this repository"}
     end
@@ -42,7 +46,7 @@ defmodule GitPair.Actions do
   end
 
   def status() do
-    "Pairing with: \n\n" <> Enum.join(collaborators, "\n")
+    ("Pairing with: \n\n" <> Enum.join(collaborators, "\n"))
     |> output()
   end
 
@@ -66,16 +70,19 @@ defmodule GitPair.Actions do
     case command("--get-all") do
       {collaborators, 0} ->
         String.split(collaborators, "\n")
-        |> (&(List.delete_at(&1, length(&1) - 1))).()
+        |> (&List.delete_at(&1, length(&1) - 1)).()
+
       _ ->
         []
     end
   end
 
   defp make_co_authored_by() do
-    "\n" <> (Enum.map(collaborators, fn collaborator ->
-      "Co-authored-by: #{collaborator} <#{collaborator}@users.noreply.github.com>"
-    end) |> Enum.join("\n"))
+    "\n" <>
+      (Enum.map(collaborators, fn collaborator ->
+         "Co-authored-by: #{collaborator} <#{collaborator}@users.noreply.github.com>"
+       end)
+       |> Enum.join("\n"))
   end
 
   defp output({"", @success_exit_status}, message) do
