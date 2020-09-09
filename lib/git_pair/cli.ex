@@ -22,7 +22,8 @@ defmodule GitPair.CLI do
     init: "Initialize pairing session",
     rm: "Remove [username] as co-author for next commits",
     stop: "Stop pairing with everyone",
-    status: "Display pairs list"
+    status: "Display pairs list",
+    version: "Display package version"
   ]
 
   def main(argv) do
