@@ -3,7 +3,7 @@ defmodule GitPair.MixFile do
 
   def project do
     [
-      app: :"git-pair",
+      app: :git_pair,
       description: "Automatically adds Co-authored-by mark to commits when you're pairing",
       version: "0.2.0",
       elixir: "~> 1.10",
@@ -35,7 +35,11 @@ defmodule GitPair.MixFile do
   end
 
   def escript do
-    [main_module: GitPair.CLI]
+    [
+      main_module: GitPair.CLI,
+      name: "git-pair",
+      path: "git-pair"
+    ]
   end
 
   defp package do
