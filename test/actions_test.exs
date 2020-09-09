@@ -51,4 +51,11 @@ defmodule GitPair.ActionsTest do
     assert result == :ok
     assert message == "Stopped pairing with everyone"
   end
+
+  test ".version displays current app version" do
+    {result, message} = Actions.version()
+
+    assert result == :ok
+    assert message == "You're using v#{GitPair.version()}"
+  end
 end

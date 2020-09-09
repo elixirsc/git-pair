@@ -52,6 +52,10 @@ defmodule GitPair.Actions do
     output(result, "Stopped pairing with everyone")
   end
 
+  def version() do
+    output("You're using v#{GitPair.version()}")
+  end
+
   def _modify_commit_msg(path) do
     co_authors_message = IO.iodata_to_binary(make_co_authored_by)
 
