@@ -29,7 +29,8 @@ defmodule GitPair.MixFile do
     [
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
       {:mox, "~> 0.5.2", only: :test},
-      {:ex_doc, ">= 0.0.0", only: :dev}
+      {:ex_doc, ">= 0.0.0", only: :dev},
+      {:ex_guard, "~> 1.3", only: :dev}
     ]
   end
 
