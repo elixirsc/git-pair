@@ -7,7 +7,11 @@ defmodule GitPair.Storage do
     run(["--add", "#{@key}.#{identifier}.identifier", identifier])
     run(["--add", "#{@key}.#{identifier}.email", email])
 
-    {:ok, nil}
+    {:ok,
+     [
+       identifier: identifier,
+       email: email
+     ]}
   end
 
   def add(identifier) do
