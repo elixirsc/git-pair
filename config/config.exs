@@ -22,6 +22,9 @@ import Config
 #
 
 config :git_pair,
+  storage: GitPair.Storage
+
+config :git_pair,
   command_runner: System
 
 # Import environment specific config. This must remain at the bottom
