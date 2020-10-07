@@ -5,18 +5,38 @@ defmodule GitPair.ActionsTest do
 
   alias GitPair.Actions
   alias GitPair.SystemMock
+  alias GitPair.StorageMock
 
   setup :verify_on_exit!
 
-  test ".add calls git config add command" do
-    expect(SystemMock, :cmd, fn _cmd, _options ->
-      {"", 0}
+  test ".add calls git config add command passing username" do
+    expect(StorageMock, :add, fn identifier ->
+      {:ok,
+       [
+         identifier: identifier,
+         email: "fake_user@users.noreply.github.com"
+       ]}
     end)
 
-    {result, message} = Actions.add(["fake-user"])
+    {result, message} = Actions.add(["fake_user"])
 
     assert result == :ok
-    assert message == "User fake-user added"
+    assert message == "User fake_user (fake_user@users.noreply.github.com) added"
+  end
+
+  test ".add calls git config add command passing identifier and email" do
+    expect(StorageMock, :add, fn [identifier, email] ->
+      {:ok,
+       [
+         identifier: identifier,
+         email: "fake_user@example.com"
+       ]}
+    end)
+
+    {result, message} = Actions.add(["fake_user", "fake_user@example.com"])
+
+    assert result == :ok
+    assert message == "User fake_user (fake_user@example.com) added"
   end
 
   test ".rm calls git config unset command" do

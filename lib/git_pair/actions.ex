@@ -1,7 +1,6 @@
 defmodule GitPair.Actions do
   @git_config "config"
-  @key "pair.coauthor"
-
+  @key "pair"
   @success_exit_status 0
 
   @commit_msg_hook_content """
@@ -13,6 +12,8 @@ defmodule GitPair.Actions do
   """
 
   @commit_msg_hook_path "./.git/hooks/commit-msg"
+
+  alias GitPair.Storage
 
   def init() do
     File.mkdir_p!(Path.dirname(@commit_msg_hook_path))
@@ -33,10 +34,16 @@ defmodule GitPair.Actions do
     end
   end
 
-  def add(username) do
-    result = command("--add", username)
+  def add([username, email]) do
+    {result, user_data} = storage().add([username, email])
 
-    output(result, "User #{username} added")
+    output(result, "User #{user_data[:identifier]} (#{user_data[:email]}) added")
+  end
+
+  def add(username) do
+    {result, user_data} = storage().add(username)
+
+    output(result, "User #{user_data[:identifier]} (#{user_data[:email]}) added")
   end
 
   def rm(username) do
@@ -89,6 +96,14 @@ defmodule GitPair.Actions do
        |> Enum.join("\n"))
   end
 
+  defp output(:ok, message) do
+    {:ok, message}
+  end
+
+  defp output(:error, _message) do
+    {:error, "Failed to execute command"}
+  end
+
   defp output({"", @success_exit_status}, message) do
     {:ok, message}
   end
@@ -120,6 +135,10 @@ defmodule GitPair.Actions do
 
   defp command(_action, _usernames) do
     {:error, "Unsuported multiple users"}
+  end
+
+  def storage() do
+    Application.get_env(:git_pair, :storage, Storage)
   end
 
   def command_runner() do
