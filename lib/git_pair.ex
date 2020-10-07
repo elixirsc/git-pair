@@ -3,7 +3,7 @@ defmodule GitPair do
   Documentation for `GitPair`.
   """
 
-  @version Mix.Project.config[:version]
+  @version Mix.Project.config()[:version]
 
   def version(), do: @version
 end
