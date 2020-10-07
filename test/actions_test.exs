@@ -4,8 +4,8 @@ defmodule GitPair.ActionsTest do
   import Mox
 
   alias GitPair.Actions
-  alias GitPair.SystemMock
   alias GitPair.StorageMock
+  alias GitPair.SystemMock
 
   setup :verify_on_exit!
 
