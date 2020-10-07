@@ -24,10 +24,13 @@ defmodule GitPair.StorageTest do
         {"", 0}
       end)
 
-      {result, message} = Storage.add("fake_user")
+      {result, user_data} = Storage.add("fake_user")
 
       assert result == :ok
-      assert message == nil
+      assert user_data == [
+        identifier: "fake_user",
+        email: "fake_user@users.noreply.github.com"
+      ]
     end
   end
 
@@ -36,19 +39,22 @@ defmodule GitPair.StorageTest do
       command_prefix = ["config", "--add"]
 
       expect(SystemMock, :cmd, fn _cmd, options ->
-        assert options == command_prefix ++ ["pair.fake-user.identifier", "fake-user"]
+        assert options == command_prefix ++ ["pair.fake_user.identifier", "fake_user"]
         {"", 0}
       end)
 
       expect(SystemMock, :cmd, fn _cmd, options ->
-        assert options == command_prefix ++ ["pair.fake-user.email", "fake@example.com"]
+        assert options == command_prefix ++ ["pair.fake_user.email", "fake@example.com"]
         {"", 0}
       end)
 
-      {result, message} = Storage.add(["fake-user", "fake@example.com"])
+      {result, user_data} = Storage.add(["fake_user", "fake@example.com"])
 
       assert result == :ok
-      assert message == nil
+      assert user_data == [
+        identifier: "fake_user",
+        email: "fake@example.com"
+      ]
     end
   end
 end
