@@ -27,10 +27,11 @@ defmodule GitPair.StorageTest do
       {result, user_data} = Storage.add("fake_user")
 
       assert result == :ok
+
       assert user_data == [
-        identifier: "fake_user",
-        email: "fake_user@users.noreply.github.com"
-      ]
+               identifier: "fake_user",
+               email: "fake_user@users.noreply.github.com"
+             ]
     end
   end
 
@@ -51,10 +52,11 @@ defmodule GitPair.StorageTest do
       {result, user_data} = Storage.add(["fake_user", "fake@example.com"])
 
       assert result == :ok
+
       assert user_data == [
-        identifier: "fake_user",
-        email: "fake@example.com"
-      ]
+               identifier: "fake_user",
+               email: "fake@example.com"
+             ]
     end
   end
 end
