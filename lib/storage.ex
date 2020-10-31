@@ -18,11 +18,11 @@ defmodule GitPair.Storage do
     add([identifier, identifier <> @github_noreply_email])
   end
 
-  def run(command) do
+  defp run(command) do
     runner().cmd("git", [@git_config | command])
   end
 
-  def runner() do
+  defp runner() do
     Application.get_env(:git_pair, :command_runner, System)
   end
 end
