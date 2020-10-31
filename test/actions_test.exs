@@ -40,8 +40,11 @@ defmodule GitPair.ActionsTest do
   end
 
   test ".rm calls git config unset command" do
-    expect(SystemMock, :cmd, fn _cmd, _options ->
-      {"", 0}
+    expect(StorageMock, :rm, fn identifier ->
+      {:ok,
+       [
+         identifier: identifier
+       ]}
     end)
 
     {result, message} = Actions.rm(["fake-user"])
