@@ -29,7 +29,7 @@ defmodule GitPair.ActionsTest do
       {:ok,
        [
          identifier: identifier,
-         email: "fake_user@example.com"
+         email: email
        ]}
     end)
 
