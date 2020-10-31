@@ -59,4 +59,38 @@ defmodule GitPair.StorageTest do
              ]
     end
   end
+
+  test "rm/1 removes user with identifier" do
+    command_prefix = ["config", "--remove-section"]
+
+    expect(SystemMock, :cmd, fn _cmd, options ->
+      assert options == command_prefix ++ ["pair.fake_user"]
+      {"", 0}
+    end)
+
+    {result, user_data} = Storage.rm("fake_user")
+
+    assert result == :ok
+
+    assert user_data == [
+             identifier: "fake_user"
+           ]
+  end
+
+  test "rm/1 fails to remove nonexisting user with identifier" do
+    command_prefix = ["config", "--remove-section"]
+
+    expect(SystemMock, :cmd, fn _cmd, options ->
+      assert options == command_prefix ++ ["pair.fake_user"]
+      {"", 128}
+    end)
+
+    {result, user_data} = Storage.rm("fake_user")
+
+    assert result == :error
+
+    assert user_data == [
+             identifier: "fake_user"
+           ]
+  end
 end
