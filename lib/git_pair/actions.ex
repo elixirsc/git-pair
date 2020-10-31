@@ -46,10 +46,10 @@ defmodule GitPair.Actions do
     output(result, "User #{user_data[:identifier]} (#{user_data[:email]}) added")
   end
 
-  def rm(username) do
-    result = command("--unset", username)
+  def rm(identifier) do
+    {result, user_data} = storage().rm(identifier)
 
-    output(result, "User #{username} removed")
+    output(result, "User #{user_data[:identifier]} removed")
   end
 
   def status() do
