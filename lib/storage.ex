@@ -2,6 +2,7 @@ defmodule GitPair.Storage do
   @git_config "config"
   @key "pair"
   @github_noreply_email "@users.noreply.github.com"
+  @success_exit_status 0
 
   def add([identifier, email]) do
     run(["--add", "#{@key}.#{identifier}.identifier", identifier])
@@ -16,6 +17,22 @@ defmodule GitPair.Storage do
 
   def add(identifier) do
     add([identifier, identifier <> @github_noreply_email])
+  end
+
+  def rm(identifier) do
+    {_message, result} = run(["--remove-section", "#{@key}.#{identifier}"])
+
+    build_result(result,
+      identifier: identifier
+    )
+  end
+
+  defp build_result(@success_exit_status, data) do
+    {:ok, data}
+  end
+
+  defp build_result(_exit_status, data) do
+    {:error, data}
   end
 
   defp run(command) do
