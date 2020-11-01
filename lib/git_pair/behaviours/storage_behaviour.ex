@@ -4,5 +4,5 @@ defmodule GitPair.StorageBehaviour do
   @callback add(String.t()) :: {atom(), list()}
   @callback add(list(String.t())) :: {atom(), list()}
 
-  @callback rm(String.t()) :: {atom(), list()}
+  @callback remove(String.t()) :: {atom(), list()}
 end
