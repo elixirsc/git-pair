@@ -27,6 +27,21 @@ defmodule GitPair.Storage do
     )
   end
 
+  def remove_all() do
+    case fetch_all() do
+      {:ok, coauthors} when coauthors != [] ->
+        coauthor_identifiers = Enum.map(coauthors, fn coauthor ->
+          {:ok, coauthor} = remove(coauthor[:identifier])
+
+          coauthor[:identifier]
+        end)
+
+        {:ok, coauthor_identifiers}
+      _ ->
+        {:ok, []}
+    end
+  end
+
   def fetch(identifier) do
     {result, @success_exit_status} = run(["--get", "#{@key}.#{identifier}.email"])
 

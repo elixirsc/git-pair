@@ -94,6 +94,48 @@ defmodule GitPair.StorageTest do
            ]
   end
 
+  test "remove_all/0 removes all coauthors" do
+    fetch_all_command_prefix = ["config", "--get-regexp", "pair.*.identifier"]
+
+    expect(SystemMock, :cmd, fn _cmd, options ->
+      assert options == fetch_all_command_prefix
+
+      {"pair.fake_user.identifier fake_user\npair.fake_user_2.identifier fake_user_2\n", 0}
+    end)
+
+    fetch_command_prefix = ["config", "--get"]
+
+    expect(SystemMock, :cmd, fn _cmd, options ->
+      assert options == fetch_command_prefix ++ ["pair.fake_user.email"]
+
+      {"fake_user@example.com\n", 0}
+    end)
+
+    expect(SystemMock, :cmd, fn _cmd, options ->
+      assert options == fetch_command_prefix ++ ["pair.fake_user_2.email"]
+
+      {"fake_user_2@example.com\n", 0}
+    end)
+
+    command_prefix = ["config", "--remove-section"]
+
+    expect(SystemMock, :cmd, fn _cmd, options ->
+      assert options == command_prefix ++ ["pair.fake_user"]
+      {"", 0}
+    end)
+
+    expect(SystemMock, :cmd, fn _cmd, options ->
+      assert options == command_prefix ++ ["pair.fake_user_2"]
+      {"", 0}
+    end)
+
+    {result, coauthor_identifiers} = Storage.remove_all()
+
+    assert result == :ok
+
+    assert coauthor_identifiers == ["fake_user", "fake_user_2"]
+  end
+
   test "fetch/1 returns pair information with identifier and email" do
     command_prefix = ["config", "--get"]
 
