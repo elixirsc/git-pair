@@ -53,15 +53,39 @@ defmodule GitPair.ActionsTest do
     assert message == "User fake-user removed"
   end
 
-  test ".status calls git config get-all command" do
-    expect(SystemMock, :cmd, fn _cmd, _options ->
-      {"fake-user\n", 0}
+  test ".status prints a list of collaborators when pairing" do
+    expect(StorageMock, :fetch_all, fn ->
+      {:ok,
+       [
+         [
+           identifier: "fake_user",
+           email: "fake_user@example.com"
+         ],
+         [
+           identifier: "fake_user_2",
+           email: "fake_user_2@example.com"
+         ]
+       ]}
     end)
 
     {result, message} = Actions.status()
 
     assert result == :ok
-    assert message == "Pairing with: \n\nfake-user"
+
+    assert message ==
+             "Pairing with:\n\nfake_user <fake_user@example.com>\nfake_user_2 <fake_user_2@example.com>"
+  end
+
+  test ".status prints a message when not pairing" do
+    expect(StorageMock, :fetch_all, fn ->
+      {:ok, []}
+    end)
+
+    {result, message} = Actions.status()
+
+    assert result == :ok
+
+    assert message == "You aren't pairing with anyone"
   end
 
   test ".stop calls git config --unset-all command" do
