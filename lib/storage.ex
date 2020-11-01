@@ -27,6 +27,18 @@ defmodule GitPair.Storage do
     )
   end
 
+  def fetch(identifier) do
+    {result, @success_exit_status} = run(["--get", "#{@key}.#{identifier}.email"])
+
+    [email, _tail] = String.split(result, "\n")
+
+    {:ok,
+     [
+       identifier: identifier,
+       email: email
+     ]}
+  end
+
   defp build_result(@success_exit_status, data) do
     {:ok, data}
   end
