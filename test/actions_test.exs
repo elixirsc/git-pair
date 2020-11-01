@@ -5,7 +5,6 @@ defmodule GitPair.ActionsTest do
 
   alias GitPair.Actions
   alias GitPair.StorageMock
-  alias GitPair.SystemMock
 
   setup :verify_on_exit!
 
@@ -88,15 +87,15 @@ defmodule GitPair.ActionsTest do
     assert message == "You aren't pairing with anyone"
   end
 
-  test ".stop calls git config --unset-all command" do
-    expect(SystemMock, :cmd, fn _cmd, _options ->
-      {"", 0}
+  test ".stop stops pairing session by removing coauthors from storage" do
+    expect(StorageMock, :remove_all, fn ->
+      {:ok, ["fake_user", "fake_user_2"]}
     end)
 
     {result, message} = Actions.stop()
 
     assert result == :ok
-    assert message == "Stopped pairing with everyone"
+    assert message == "Pairing session stopped!\n\nYou were pairing previously with:\nfake_user\nfake_user_2"
   end
 
   test ".version displays current app version" do
