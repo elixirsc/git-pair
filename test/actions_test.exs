@@ -39,8 +39,8 @@ defmodule GitPair.ActionsTest do
     assert message == "User fake_user (fake_user@example.com) added"
   end
 
-    expect(StorageMock, :rm, fn identifier ->
   test ".rm removes identity from storage" do
+    expect(StorageMock, :remove, fn identifier ->
       {:ok,
        [
          identifier: identifier

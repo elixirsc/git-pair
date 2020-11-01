@@ -19,7 +19,7 @@ defmodule GitPair.Storage do
     add([identifier, identifier <> @github_noreply_email])
   end
 
-  def rm(identifier) do
+  def remove(identifier) do
     {_message, result} = run(["--remove-section", "#{@key}.#{identifier}"])
 
     build_result(result,
