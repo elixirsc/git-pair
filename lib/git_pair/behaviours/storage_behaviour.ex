@@ -7,4 +7,5 @@ defmodule GitPair.StorageBehaviour do
   @callback remove(String.t()) :: {atom(), list()}
 
   @callback fetch(String.t()) :: {list()}
+  @callback fetch_all() :: {list()}
 end
