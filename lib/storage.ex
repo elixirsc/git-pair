@@ -39,6 +39,29 @@ defmodule GitPair.Storage do
      ]}
   end
 
+  def fetch_all do
+    case run(["--get-regexp", "#{@key}.*.identifier"]) do
+      {collaborators, @success_exit_status} ->
+        collaborators =
+          String.split(collaborators, "\n")
+          |> (fn collaborators ->
+                List.delete_at(collaborators, length(collaborators) - 1)
+              end).()
+          |> Enum.map(fn collaborator ->
+            [_key, collaborator] = String.split(collaborator, " ")
+
+            {:ok, collaborator_data} = fetch(collaborator)
+
+            collaborator_data
+          end)
+
+        {:ok, collaborators}
+
+      _ ->
+        {:ok, []}
+    end
+  end
+
   defp build_result(@success_exit_status, data) do
     {:ok, data}
   end
