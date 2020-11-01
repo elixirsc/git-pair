@@ -93,4 +93,22 @@ defmodule GitPair.StorageTest do
              identifier: "fake_user"
            ]
   end
+
+  test "fetch/1 returns pair information with identifier and email" do
+    command_prefix = ["config", "--get"]
+
+    expect(SystemMock, :cmd, fn _cmd, options ->
+      assert options == command_prefix ++ ["pair.fake_user.email"]
+      {"fake_user@example.com\n", 0}
+    end)
+
+    {result, user_data} = Storage.fetch("fake_user")
+
+    assert result == :ok
+
+    assert user_data == [
+             identifier: "fake_user",
+             email: "fake_user@example.com"
+           ]
+  end
 end
