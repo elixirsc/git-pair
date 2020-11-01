@@ -70,9 +70,19 @@ defmodule GitPair.Actions do
   end
 
   def stop() do
-    result = command("--unset-all")
+    case storage().remove_all() do
+      {:ok, []} ->
+        output("You aren't pairing with anyone")
 
-    output(result, "Stopped pairing with everyone")
+      {:ok, coauthors} ->
+        coauthors_message = "You were pairing previously with:\n" <>
+          Enum.join(coauthors, "\n")
+
+        output("Pairing session stopped!\n\n" <> coauthors_message)
+
+      _ ->
+        output("Failed to stop pairing session")
+    end
   end
 
   def version() do
