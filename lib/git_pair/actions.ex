@@ -53,8 +53,20 @@ defmodule GitPair.Actions do
   end
 
   def status() do
-    ("Pairing with: \n\n" <> Enum.join(collaborators(), "\n"))
-    |> output()
+    case storage().fetch_all() do
+      {:ok, collaborators} when length(collaborators) > 0 ->
+        collaborators =
+          collaborators
+          |> Enum.map(fn collaborator ->
+            "#{collaborator[:identifier]} <#{collaborator[:email]}>"
+          end)
+          |> Enum.join("\n")
+
+        output("Pairing with:\n\n" <> collaborators)
+
+      _ ->
+        output("You aren't pairing with anyone")
+    end
   end
 
   def stop() do
