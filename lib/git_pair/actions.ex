@@ -54,7 +54,7 @@ defmodule GitPair.Actions do
 
   def status() do
     case storage().fetch_all() do
-      {:ok, collaborators} when length(collaborators) > 0 ->
+      {:ok, collaborators} when collaborators != [] ->
         collaborators =
           collaborators
           |> Enum.map(fn collaborator ->
