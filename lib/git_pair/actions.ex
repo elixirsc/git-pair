@@ -141,14 +141,6 @@ defmodule GitPair.Actions do
     command_runner().cmd("git", [@git_config, action, @key])
   end
 
-  defp command(action, [username]) do
-    command_runner().cmd("git", [@git_config, action, @key, username])
-  end
-
-  defp command(_action, _usernames) do
-    {:error, "Unsuported multiple users"}
-  end
-
   def storage() do
     Application.get_env(:git_pair, :storage, Storage)
   end
