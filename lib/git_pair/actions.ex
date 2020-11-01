@@ -47,7 +47,7 @@ defmodule GitPair.Actions do
   end
 
   def rm(identifier) do
-    {result, user_data} = storage().rm(identifier)
+    {result, user_data} = storage().remove(identifier)
 
     output(result, "User #{user_data[:identifier]} removed")
   end
