@@ -24,7 +24,7 @@ defmodule GitPair.StorageTest do
         {"", 0}
       end)
 
-      {result, user_data} = Storage.add("fake_user")
+      {result, user_data} = Storage.add(["fake_user"])
 
       assert result == :ok
 
