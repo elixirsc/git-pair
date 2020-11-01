@@ -1,7 +1,7 @@
 defmodule GitPair.Storage do
   @git_config "config"
   @key "pair"
-  @github_noreply_email "@users.noreply.github.com"
+  @github_noreply_email_domain "users.noreply.github.com"
   @success_exit_status 0
 
   def add([identifier, email]) do
@@ -15,8 +15,8 @@ defmodule GitPair.Storage do
      ]}
   end
 
-  def add(identifier) do
-    add([identifier, identifier <> @github_noreply_email])
+  def add([identifier]) do
+    add([identifier, "#{identifier}@#{@github_noreply_email_domain}"])
   end
 
   def remove(identifier) do
