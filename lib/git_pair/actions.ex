@@ -129,19 +129,11 @@ defmodule GitPair.Actions do
     {:ok, message}
   end
 
-  defp command(action) do
-    command_runner().cmd("git", [@git_config, action, @key])
-  end
-
   def storage() do
     Application.get_env(:git_pair, :storage, Storage)
   end
 
   def hook() do
     Application.get_env(:git_pair, :hook, Hook)
-  end
-
-  def command_runner() do
-    Application.get_env(:git_pair, :command_runner, System)
   end
 end
