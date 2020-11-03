@@ -5,3 +5,6 @@ config :git_pair,
 
 config :git_pair,
   storage: GitPair.StorageMock
+
+config :git_pair,
+  hook: GitPair.HookMock

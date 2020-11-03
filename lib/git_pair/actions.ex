@@ -90,32 +90,14 @@ defmodule GitPair.Actions do
   end
 
   def _modify_commit_msg(path) do
-    co_authors_message = IO.iodata_to_binary(make_co_authored_by())
+    {:ok, coauthors} = storage().fetch_all()
 
-    File.open(path, [:append])
-    |> elem(1)
-    |> IO.binwrite(co_authors_message)
-
-    {:ok, "Success! Co-authors registered."}
-  end
-
-  defp collaborators() do
-    case command("--get-all") do
-      {collaborators, 0} ->
-        String.split(collaborators, "\n")
-        |> (&List.delete_at(&1, length(&1) - 1)).()
-
+    case hook().modify_commit_msg(path, coauthors) do
+      {:ok} ->
+        {:ok, "Success! Co-authors registered."}
       _ ->
-        []
+        {:nothing}
     end
-  end
-
-  defp make_co_authored_by() do
-    "\n" <>
-      (Enum.map(collaborators(), fn collaborator ->
-         "Co-authored-by: #{collaborator} <#{collaborator}@users.noreply.github.com>"
-       end)
-       |> Enum.join("\n"))
   end
 
   defp output(:ok, message) do
@@ -153,6 +135,10 @@ defmodule GitPair.Actions do
 
   def storage() do
     Application.get_env(:git_pair, :storage, Storage)
+  end
+
+  def hook() do
+    Application.get_env(:git_pair, :hook, Hook)
   end
 
   def command_runner() do

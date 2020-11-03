@@ -5,6 +5,7 @@ defmodule GitPair.ActionsTest do
 
   alias GitPair.Actions
   alias GitPair.StorageMock
+  alias GitPair.HookMock
 
   setup :verify_on_exit!
 
@@ -103,5 +104,44 @@ defmodule GitPair.ActionsTest do
 
     assert result == :ok
     assert message == "You're using v#{GitPair.version()}"
+  end
+
+  test "._modify_commit_msg/1 add coauthors to commit message file when pairing" do
+    expect(StorageMock, :fetch_all, fn ->
+      {:ok,
+       [
+         [
+           identifier: "fake_user",
+           email: "fake_user@example.com"
+         ],
+         [
+           identifier: "fake_user_2",
+           email: "fake_user_2@example.com"
+         ]
+       ]}
+    end)
+
+    expect(HookMock, :modify_commit_msg, fn _path, _coauthors ->
+      {:ok}
+    end)
+
+    {result, message} = Actions._modify_commit_msg("/tmp/COMMIT_MSG")
+
+    assert result == :ok
+    assert message == "Success! Co-authors registered."
+  end
+
+  test "._modify_commit_msg/1 do nothing to commit message file when not pairing" do
+    expect(StorageMock, :fetch_all, fn ->
+      {:ok, []}
+    end)
+
+    expect(HookMock, :modify_commit_msg, fn _path, _coauthors ->
+      {:nothing}
+    end)
+
+    {result} = Actions._modify_commit_msg("/tmp/COMMIT_MSG")
+
+    assert result == :nothing
   end
 end

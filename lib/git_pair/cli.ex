@@ -62,4 +62,6 @@ defmodule GitPair.CLI do
   defp print_result({:error, message}) do
     IO.puts("Fail: #{message}")
   end
+
+  defp print_result({:nothing}), do: true
 end
