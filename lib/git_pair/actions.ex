@@ -1,8 +1,4 @@
 defmodule GitPair.Actions do
-  @git_config "config"
-  @key "pair"
-  @success_exit_status 0
-
   @commit_msg_hook_content """
     #!/bin/sh
     set -e
@@ -106,23 +102,6 @@ defmodule GitPair.Actions do
 
   defp output(:error, _message) do
     {:error, "Failed to execute command"}
-  end
-
-  defp output({"", @success_exit_status}, message) do
-    {:ok, message}
-  end
-
-  defp output({result, @success_exit_status}, message) do
-    # TODO: Add support to message templates
-    {:ok, "#{message}\n\n#{result}"}
-  end
-
-  defp output({"", _failed_exit_status}, _message) do
-    {:error, "Failed to execute command"}
-  end
-
-  defp output({result, _failed_exit_status}, _message) do
-    {:error, result}
   end
 
   defp output(message) do
