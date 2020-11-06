@@ -9,6 +9,7 @@ defmodule GitPair.Actions do
 
   @commit_msg_hook_path "./.git/hooks/commit-msg"
 
+  alias GitPair.Hook
   alias GitPair.Storage
 
   def init() do
