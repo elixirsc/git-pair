@@ -10,6 +10,7 @@ defmodule GitPair.MixFile do
       escript: escript(),
       deps: deps(),
       package: package(),
+      releases: releases(),
 
       # Docs
       name: "GitPair",
@@ -21,7 +22,15 @@ defmodule GitPair.MixFile do
 
   # Run "mix help compile.app" to learn about applications.
   def application do
-    [extra_applications: [:logger]]
+    [extra_applications: [:logger], mod: {GitPair.Main, []}]
+  end
+
+  def releases do
+    [
+      git_pair: [
+        steps: [:assemble, &Bakeware.assemble/1]
+      ]
+    ]
   end
 
   # Run "mix help deps" to learn about dependencies.
@@ -29,7 +38,8 @@ defmodule GitPair.MixFile do
     [
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
       {:mox, "~> 0.5.2", only: :test},
-      {:ex_doc, ">= 0.0.0", only: :dev}
+      {:ex_doc, ">= 0.0.0", only: :dev},
+      {:bakeware, runtime: false}
     ]
   end
 
