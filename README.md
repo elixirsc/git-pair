@@ -1,6 +1,6 @@
 # GitPair
 
-![Elixir CI](https://github.com/elixirsc/git-pair/workflows/Elixir%20CI/badge.svg) [![SourceLevel](https://app.sourcelevel.io/github/elixirsc/git-pair.svg)](https://app.sourcelevel.io/github/elixirsc/git-pair)
+![Elixir CI](https://github.com/elixirsc/git-pair/workflows/Elixir%20CI/badge.svg)
 
 Automatically adds [`Co-authored-by`](https://git.wiki.kernel.org/index.php/CommitMessageConventions) mark to commits when you're pairing.
 
